@@ -19,6 +19,7 @@ module cma.proyectocma {
     requires spring.context;
     requires spring.boot;
     requires static lombok;
+    requires spring.data.commons;
 
     // --- Paquetes abiertos/exports ---
     opens cma.proyectocma to javafx.fxml;
@@ -36,4 +37,5 @@ module cma.proyectocma {
     opens cma.proyectocma.dao;
     opens cma.proyectocma.dao.model;
     opens cma.proyectocma.dao.model.base;
+    opens cma.proyectocma.domain.service.base;
 }

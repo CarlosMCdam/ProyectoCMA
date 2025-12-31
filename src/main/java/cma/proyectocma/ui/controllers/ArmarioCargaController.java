@@ -1,7 +1,7 @@
 package cma.proyectocma.ui.controllers;
 
-import cma.proyectocma.dao.model.ArmarioCarga;
-import cma.proyectocma.domain.service.ServicePkSimple;
+import cma.proyectocma.domain.service.ServiceArmarioCarga;
+import cma.proyectocma.domain.service.base.ServicePkSimple;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ArmarioCargaController {
 
-    private final ServicePkSimple<ArmarioCarga> service;
+    private final ServiceArmarioCarga service;
 
-    public ArmarioCargaController(ServicePkSimple<ArmarioCarga> service) {
+    public ArmarioCargaController(ServiceArmarioCarga service) {
         this.service = service;
     }
 
@@ -25,6 +25,6 @@ public class ArmarioCargaController {
 
     @FXML
     protected void initialize() {
-        mainText.setText(service.findById(1).getDispositivos().toString());
+        mainText.setText(service.findById(1).getId().toString());
     }
 }

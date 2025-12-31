@@ -16,6 +16,9 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class EntityPkDoble {
 
+    @EmbeddedId
+    private PkDoble id;
+
     @Getter
     @Setter
     @NoArgsConstructor
