@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 
 import java.util.concurrent.Callable;
 
-public class TaskLauncher<T> {
+public final class TaskLauncher<T> {
     public TaskLauncher(Callable<T> metodo, EventHandler<WorkerStateEvent> evento) {
         Task<T> task = new Task<>() {
             @Override

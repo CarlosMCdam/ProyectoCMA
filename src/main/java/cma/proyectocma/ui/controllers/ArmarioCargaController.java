@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ArmarioCargaController {
+public final class ArmarioCargaController {
 
     private final ServiceArmarioCarga service;
 

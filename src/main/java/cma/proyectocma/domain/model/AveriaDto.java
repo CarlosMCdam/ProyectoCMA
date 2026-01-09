@@ -1,9 +1,23 @@
 package cma.proyectocma.domain.model;
 
 import cma.proyectocma.dao.model.Averia;
-import cma.proyectocma.domain.model.base.DtoPkSimple;
+import cma.proyectocma.domain.mapper.base.MapperPkSimple;
+import cma.proyectocma.domain.model.util.DtoId;
+import cma.proyectocma.domain.model.util.IdReference;
+
+import java.time.LocalDate;
 
 public record AveriaDto(
-        Integer id
-) implements DtoPkSimple<AveriaDto, Averia> {
+        @DtoId
+        Integer id,
+        String descripcion,
+        String estado,
+        String solucion,
+        LocalDate fechaInicial,
+        LocalDate fechaFinal,
+        @IdReference(IdReference.Entity.DISPOSITIVO)
+        Integer idDispositivo,
+        @IdReference(IdReference.Entity.PERSONA)
+        Integer idPersona
+) {
 }

@@ -1,7 +1,11 @@
 package cma.proyectocma.dao.model;
 
 import cma.proyectocma.dao.model.base.EntityPkSimple;
-import jakarta.persistence.*;
+import cma.proyectocma.dao.model.common.C;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,20 +15,20 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "Modelo", schema = "databaseCMA")
-@AttributeOverride(name = "id", column = @Column(name = "id_modelo"))
+@Table(name = C.MODELO_NOMBRE, schema = C.BBDD)
+@AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.MODELO_PK))
 public class Modelo extends EntityPkSimple {
 
-    @Column(name = "nombre", nullable = false, length = 100)
+    @Column(name = C.MODELO_CAMPO_NOMBRE, nullable = false, length = 100)
     private String nombre;
 
-    @Column(name = "estado", length = 50)
+    @Column(name = C.MODELO_CAMPO_ESTADO, length = 50)
     private String estado;
 
-    @Column(name = "tipo", length = 50)
+    @Column(name = C.MODELO_CAMPO_TIPO, length = 50)
     private String tipo;
 
-    @Column(name = "descripcion")
+    @Column(name = C.MODELO_CAMPO_DESCRIPCION)
     private String descripcion;
 
 }

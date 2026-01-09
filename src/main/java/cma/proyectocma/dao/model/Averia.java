@@ -1,6 +1,7 @@
 package cma.proyectocma.dao.model;
 
 import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,31 +14,31 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "Averia", schema = "databaseCMA")
-@AttributeOverride(name = "id", column = @Column(name = "id_averia"))
+@Table(name = C.AVERIA_NOMBRE, schema = C.BBDD)
+@AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.AVERIA_PK))
 public class Averia extends EntityPkSimple {
 
-    @Column(name = "descripcion", nullable = false)
+    @Column(name = C.AVERIA_CAMPO_DESCRIPCION, nullable = false)
     private String descripcion;
 
-    @Column(name = "estado", nullable = false, length = 50)
+    @Column(name = C.AVERIA_CAMPO_ESTADO, nullable = false, length = 50)
     private String estado;
 
-    @Column(name = "solucion")
+    @Column(name = C.AVERIA_CAMPO_SOLUCION)
     private String solucion;
 
-    @Column(name = "fecha_inicial", nullable = false)
+    @Column(name = C.AVERIA_CAMPO_FECHAINICIAL, nullable = false)
     private LocalDate fechaInicial;
 
-    @Column(name = "fecha_final")
+    @Column(name = C.AVERIA_CAMPO_FECHAFINAL)
     private LocalDate fechaFinal;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_dispositivo", nullable = false)
-    private Dispositivo idDispositivo;
+    @JoinColumn(name = C.AVERIA_CAMPO_IDDISPOSITIVO, nullable = false)
+    private Dispositivo dispositivo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_persona", nullable = false)
-    private Persona idPersona;
+    @JoinColumn(name = C.AVERIA_CAMPO_IDPERSONA, nullable = false)
+    private Persona persona;
 
 }

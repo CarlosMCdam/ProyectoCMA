@@ -1,5 +1,6 @@
 package cma.proyectocma.dao.model.base;
 
+import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,10 +27,10 @@ public abstract class EntityPkDoble {
 
     @Embeddable
     public static class PkDoble implements Serializable {
-        @Column(name = "id_1", nullable = false)
+        @Column(name = C.ENTITY_DOBLE_ID_1, nullable = false)
         private Integer id1;
 
-        @Column(name = "id_2", nullable = false)
+        @Column(name = C.ENTITY_DOBLE_ID_2, nullable = false)
         private Integer id2;
 
         @Override

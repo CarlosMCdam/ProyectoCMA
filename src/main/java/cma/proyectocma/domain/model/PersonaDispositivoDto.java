@@ -1,11 +1,11 @@
 package cma.proyectocma.domain.model;
 
-import cma.proyectocma.domain.model.base.DtoPkDoble;
+import cma.proyectocma.domain.model.util.DtoId;
 
 public record PersonaDispositivoDto(
-        @DtoPkDoble.Id(DtoPkDoble.Id.IdIndex.ID1)
+        @DtoId(DtoId.IdIndex.ID1)
         Integer idPersona,
-        @DtoPkDoble.Id(DtoPkDoble.Id.IdIndex.ID2)
+        @DtoId(DtoId.IdIndex.ID2)
         Integer idDispositivo
 ) {
 }

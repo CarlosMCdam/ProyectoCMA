@@ -7,9 +7,8 @@ import cma.proyectocma.domain.service.base.ServicePkSimple;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceAveria extends ServicePkSimple<AveriaDto, Averia> {
+public final class ServiceAveria extends ServicePkSimple<AveriaDto, Averia> {
     public ServiceAveria(RepositoryPkSimple.RepositoryAveria repository) {
         super(repository, AveriaDto.class);
     }
 }
-

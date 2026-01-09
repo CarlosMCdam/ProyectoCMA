@@ -1,6 +1,7 @@
 package cma.proyectocma.dao.model;
 
 import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,15 +14,15 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "Portatiles", schema = "databaseCMA")
+@Table(name = C.PORTATIL_NOMBRE, schema = C.BBDD)
 public class Portatil extends EntityPkSimple {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_pc", nullable = false)
+    @JoinColumn(name = C.PORTATIL_PK, nullable = false)
     private Pc pc;
 
-    @Column(name = "pulgadas", precision = 4, scale = 1)
+    @Column(name = C.PORTATIL_CAMPO_PULGADAS, precision = 4, scale = 1)
     private BigDecimal pulgadas;
 
 }

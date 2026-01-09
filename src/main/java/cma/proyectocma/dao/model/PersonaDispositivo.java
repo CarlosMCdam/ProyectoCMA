@@ -1,6 +1,7 @@
 package cma.proyectocma.dao.model;
 
 import cma.proyectocma.dao.model.base.EntityPkDoble;
+import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,21 +12,21 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "Persona_Dispositivos", schema = "databaseCMA")
+@Table(name = C.PERSONADISPOSITIVO_NOMBRE, schema = C.BBDD)
 @AttributeOverrides({
-        @AttributeOverride(name = "id.id_1", column = @Column(name = "id_persona")),
-        @AttributeOverride(name = "id.id_2", column = @Column(name = "id_dispositivo"))
+        @AttributeOverride(name = C.ENTITY_DOBLE_ID_1, column = @Column(name = C.PERSONADISPOSITIVO_PK_PERSONA)),
+        @AttributeOverride(name = C.ENTITY_DOBLE_ID_2, column = @Column(name = C.PERSONADISPOSITIVO_PK_DISPOSITIVO))
 })
 public class PersonaDispositivo extends EntityPkDoble {
 
     @MapsId("id_1")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_persona", nullable = false)
-    private Persona idPersona;
+    @JoinColumn(name = C.PERSONADISPOSITIVO_PK_PERSONA, nullable = false)
+    private Persona persona;
 
     @MapsId("id_2")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_dispositivo", nullable = false)
-    private Dispositivo idDispositivo;
+    @JoinColumn(name = C.PERSONADISPOSITIVO_PK_DISPOSITIVO, nullable = false)
+    private Dispositivo dispositivo;
 
 }

@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
-public class ApplicationCMA extends Application {
+public final class ApplicationCMA extends Application {
 
     private ConfigurableApplicationContext context;
 

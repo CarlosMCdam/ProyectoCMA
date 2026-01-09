@@ -20,6 +20,7 @@ module cma.proyectocma {
     requires spring.boot;
     requires static lombok;
     requires spring.data.commons;
+    requires cma.proyectocma;
 
     // --- Paquetes abiertos/exports ---
     opens cma.proyectocma to javafx.fxml;

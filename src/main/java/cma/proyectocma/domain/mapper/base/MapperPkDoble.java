@@ -1,23 +1,20 @@
-package cma.proyectocma.domain.model.base;
+package cma.proyectocma.domain.mapper.base;
 
 import cma.proyectocma.dao.model.base.EntityPkDoble;
+import cma.proyectocma.domain.model.util.DtoId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.MapsId;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public interface DtoPkDoble<T extends DtoPkDoble, E extends EntityPkDoble> {
-    default T fromEntity(E entity, Class<T> daoClass) {
+public abstract class MapperPkDoble<T extends Record, E extends EntityPkDoble> {
+    public T fromEntity(E entity, Class<T> dtoClass) {
         try {
-            T dao = daoClass.getDeclaredConstructor().newInstance();
+            T dao = dtoClass.getDeclaredConstructor().newInstance();
             Field id = Arrays.stream(entity.getClass().getDeclaredFields())
                     .filter(f -> f.isAnnotationPresent(EmbeddedId.class))
                     .findFirst()
@@ -25,14 +22,14 @@ public interface DtoPkDoble<T extends DtoPkDoble, E extends EntityPkDoble> {
             id.setAccessible(true);
             EntityPkDoble.PkDoble pk = (EntityPkDoble.PkDoble) id.get(entity);
             getAttributes(entity.getClass(), entityField -> {
-                if (entityField.isAnnotationPresent(EmbeddedId.class)) getAttributes(daoClass, daoField -> {
-                    Id idAnnotation = daoField.getAnnotation(Id.class);
-                    if (idAnnotation != null) getAttributes(entity.getClass(), entityPkField -> {
+                if (entityField.isAnnotationPresent(EmbeddedId.class)) getAttributes(dtoClass, dtoField -> {
+                    DtoId dtoIdAnnotation = dtoField.getAnnotation(DtoId.class);
+                    if (dtoIdAnnotation != null) getAttributes(entity.getClass(), entityPkField -> {
                         MapsId mapsIdAnnotation = entityPkField.getAnnotation(MapsId.class);
                         if (mapsIdAnnotation != null) {
-                            String idName = idAnnotation.value().idName;
+                            String idName = dtoIdAnnotation.value().getIdName();
                             if (mapsIdAnnotation.value().equals(idName))
-                                setAttribute(dao, daoField.getName(), pk, idName);
+                                setAttribute(dao, dtoField.getName(), pk, idName);
                         }
                     }).count();
                 }).count();
@@ -45,17 +42,17 @@ public interface DtoPkDoble<T extends DtoPkDoble, E extends EntityPkDoble> {
         }
     }
 
-    default E toEntity(T dao, Class<E> entityClass) {
+    public E toEntity(T dto, Class<E> entityClass) {
         try {
             E entity = entityClass.getDeclaredConstructor().newInstance();
             EntityPkDoble.PkDoble pk = EntityPkDoble.PkDoble.class.getDeclaredConstructor().newInstance();
-            getAttributes(dao.getClass(), daoField -> {
-                Id idAnnotation = daoField.getAnnotation(Id.class);
-                if (idAnnotation != null) setAttribute(pk, idAnnotation.value().idName, dao, daoField);
+            getAttributes(dto.getClass(), daoField -> {
+                DtoId dtoIdAnnotation = daoField.getAnnotation(DtoId.class);
+                if (dtoIdAnnotation != null) setAttribute(pk, dtoIdAnnotation.value().getIdName(), dto, daoField);
             }).count();
             entity.setId(pk);
-            getAttributes(dao.getClass(), daoField -> {
-                setAttribute(entity, daoField.getName(), dao, daoField);
+            getAttributes(dto.getClass(), daoField -> {
+                if (!daoField.isAnnotationPresent(DtoId.class)) setAttribute(entity, daoField.getName(), dto, daoField);
             }).count();
             return entity;
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
@@ -71,43 +68,19 @@ public interface DtoPkDoble<T extends DtoPkDoble, E extends EntityPkDoble> {
         });
     }
 
-    private void setAttribute(Object target, String targetFieldName, Object origin, String originFieldname) {
+    private void setAttribute(Object target, Object targetReference, Object origin, Object originReference) {
         try {
-            Field targetField = target.getClass().getDeclaredField(targetFieldName);
+            Field targetField = targetReference instanceof String fieldName
+                    ? target.getClass().getDeclaredField(fieldName)
+                    : (Field) targetReference;
             targetField.setAccessible(true);
-            Field originField = origin.getClass().getDeclaredField(originFieldname);
+            Field originField = originReference instanceof String fieldName
+                    ? origin.getClass().getDeclaredField(fieldName)
+                    : (Field) originReference;
             originField.setAccessible(true);
             targetField.set(target, originField.get(origin));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private void setAttribute(Object target, String targetFieldName, Object origin, Field originField) {
-        try {
-            Field targetField = target.getClass().getDeclaredField(targetFieldName);
-            targetField.setAccessible(true);
-            originField.setAccessible(true);
-            targetField.set(target, originField.get(origin));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    @interface Id {
-
-        IdIndex value();
-
-        enum IdIndex {
-            ID1("id1"), ID2("id2");
-
-            private final String idName;
-
-            IdIndex(String idName) {
-                this.idName = idName;
-            }
         }
     }
 }
