@@ -1,9 +1,10 @@
 package cma.proyectocma.domain.service.base;
 
-import cma.proyectocma.dao.RepositoryPkSimple;
+import cma.proyectocma.dao.repository.base.RepositoryPkSimple;
 import cma.proyectocma.dao.model.base.EntityPkSimple;
 import cma.proyectocma.domain.mapper.base.MapperPkSimple;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public abstract class ServicePkSimple<T extends Record, E extends EntityPkSimple> {
@@ -13,8 +14,8 @@ public abstract class ServicePkSimple<T extends Record, E extends EntityPkSimple
     private final MapperPkSimple<T, E> mapper;
 
     public ServicePkSimple(Class<T> dtoClass, RepositoryPkSimple<E> repository, MapperPkSimple<T, E> mapper) {
-        this.repository = repository;
         this.dtoClass = dtoClass;
+        this.repository = repository;
         this.mapper = mapper;
     }
 
@@ -22,8 +23,9 @@ public abstract class ServicePkSimple<T extends Record, E extends EntityPkSimple
         return repository.findAll().stream().map(entity -> {
             try {
                 T dto = dtoClass.getDeclaredConstructor().newInstance();
-                return mapper.fromEntity(entity, dtoClass);
-            } catch (Exception e) {
+                return mapper.fromEntity(entity);
+            } catch (NoSuchMethodException | SecurityException | InstantiationException |
+                     IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }).toList();
@@ -32,6 +34,5 @@ public abstract class ServicePkSimple<T extends Record, E extends EntityPkSimple
     public E findById(Integer id) {
         return repository.findById(id).orElse(null);
     }
-
 }
 

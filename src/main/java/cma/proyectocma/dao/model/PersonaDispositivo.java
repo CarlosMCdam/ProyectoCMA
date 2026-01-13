@@ -19,12 +19,12 @@ import lombok.Setter;
 })
 public class PersonaDispositivo extends EntityPkDoble {
 
-    @MapsId("id_1")
+    @MapsId(C.PERSONADISPOSITIVO_PK_1)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = C.PERSONADISPOSITIVO_PK_PERSONA, nullable = false)
     private Persona persona;
 
-    @MapsId("id_2")
+    @MapsId(C.PERSONADISPOSITIVO_PK_2)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = C.PERSONADISPOSITIVO_PK_DISPOSITIVO, nullable = false)
     private Dispositivo dispositivo;

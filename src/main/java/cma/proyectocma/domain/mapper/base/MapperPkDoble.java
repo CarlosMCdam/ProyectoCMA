@@ -1,5 +1,6 @@
 package cma.proyectocma.domain.mapper.base;
 
+import cma.proyectocma.domain.mapper.util.IdResolver;
 import cma.proyectocma.dao.model.base.EntityPkDoble;
 import cma.proyectocma.domain.model.util.DtoId;
 import jakarta.persistence.EmbeddedId;
@@ -12,6 +13,17 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public abstract class MapperPkDoble<T extends Record, E extends EntityPkDoble> {
+
+    Class<T> dtoClass;
+    Class<E> entityClass;
+    IdResolver resolver;
+
+    public MapperPkDoble(Class<T> dtoClass, Class<E> entityClass, IdResolver resolver) {
+        this.dtoClass = dtoClass;
+        this.entityClass = entityClass;
+        this.resolver = resolver;
+    }
+
     public T fromEntity(E entity, Class<T> dtoClass) {
         try {
             T dao = dtoClass.getDeclaredConstructor().newInstance();

@@ -1,6 +1,7 @@
 package cma.proyectocma.ui;
 
 import cma.proyectocma.Launcher;
+import cma.proyectocma.ui.common.C;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,11 +23,10 @@ public final class ApplicationCMA extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(ApplicationCMA.class.getResource(
-                "/cma/proyectocma/hello-view.fxml"
+                C.APP_PATH_FXML_ROOT
         ));
         loader.setControllerFactory(context::getBean);
         stage.setScene(new Scene(loader.load(), 640, 480));
-        stage.setTitle("Hello!");
         stage.show();
     }
 

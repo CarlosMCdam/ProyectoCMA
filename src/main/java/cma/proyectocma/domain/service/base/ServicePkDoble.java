@@ -1,27 +1,31 @@
 package cma.proyectocma.domain.service.base;
 
-import cma.proyectocma.dao.RepositoryPkDoble;
+import cma.proyectocma.dao.repository.base.RepositoryPkDoble;
 import cma.proyectocma.dao.model.base.EntityPkDoble;
 import cma.proyectocma.domain.mapper.base.MapperPkDoble;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public abstract class ServicePkDoble<T extends MapperPkDoble<T, E>, E extends EntityPkDoble> {
+public abstract class ServicePkDoble<T extends Record, E extends EntityPkDoble> {
 
-    private final RepositoryPkDoble<E> repository;
     private final Class<T> dtoClass;
+    private final RepositoryPkDoble<E> repository;
+    private final MapperPkDoble<T, E> mapper;
 
-    public ServicePkDoble(RepositoryPkDoble<E> repository, Class<T> dtoClass) {
-        this.repository = repository;
+    public ServicePkDoble(Class<T> dtoClass, RepositoryPkDoble<E> repository, MapperPkDoble<T, E> mapper) {
         this.dtoClass = dtoClass;
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
     public List<T> findAll() {
         return repository.findAll().stream().map(entity -> {
             try {
                 T dto = dtoClass.getDeclaredConstructor().newInstance();
-                return dto.fromEntity(entity, dtoClass);
-            } catch (Exception e) {
+                return mapper.fromEntity(entity, dtoClass);
+            } catch (NoSuchMethodException | SecurityException | InstantiationException |
+                     IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }).toList();

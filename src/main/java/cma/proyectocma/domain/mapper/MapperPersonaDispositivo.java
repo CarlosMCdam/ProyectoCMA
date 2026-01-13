@@ -2,7 +2,6 @@ package cma.proyectocma.domain.mapper;
 
 import cma.proyectocma.dao.model.PersonaDispositivo;
 import cma.proyectocma.domain.mapper.base.MapperPkDoble;
-import cma.proyectocma.domain.mapper.base.MapperPkSimple;
 import cma.proyectocma.domain.mapper.util.IdResolver;
 import cma.proyectocma.domain.model.PersonaDispositivoDto;
 import org.springframework.stereotype.Component;

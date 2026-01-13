@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class C {
 
-    public static final String APP_PATH_FXML_ROOT = "/fxml/";
+    public static final String APP_PATH_FXML_ROOT = "/cma/proyectocma/hello-view.fxml";
 
 }

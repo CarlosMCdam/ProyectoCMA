@@ -1,4 +1,4 @@
-package cma.proyectocma.dao;
+package cma.proyectocma.dao.repository.base;
 
 import cma.proyectocma.dao.model.PersonaDispositivo;
 import cma.proyectocma.dao.model.base.EntityPkDoble;
@@ -12,5 +12,4 @@ public interface RepositoryPkDoble<T extends EntityPkDoble> extends JpaRepositor
         return findById(new EntityPkDoble.PkDoble(id1, id2)).isPresent();
     }
 
-    interface RepositoryPersonaDispositivo extends RepositoryPkDoble<PersonaDispositivo> {}
 }

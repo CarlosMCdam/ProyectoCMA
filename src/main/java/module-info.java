@@ -20,7 +20,9 @@ module cma.proyectocma {
     requires spring.boot;
     requires static lombok;
     requires spring.data.commons;
-    requires cma.proyectocma;
+    requires org.slf4j;
+    requires spring.core;
+    requires annotations;
 
     // --- Paquetes abiertos/exports ---
     opens cma.proyectocma to javafx.fxml;
@@ -29,14 +31,16 @@ module cma.proyectocma {
     exports cma.proyectocma.ui;
     opens cma.proyectocma.ui to javafx.fxml;
 
-    exports cma.proyectocma.ui.controllers;
-    opens cma.proyectocma.ui.controllers to javafx.fxml;
+    exports cma.proyectocma.ui.controller;
+    opens cma.proyectocma.ui.controller to javafx.fxml;
 
     opens cma.proyectocma.domain.service;
 
     // --- Entidades y DAO (Hibernate/Spring Data necesitan reflexión) ---
-    opens cma.proyectocma.dao;
     opens cma.proyectocma.dao.model;
     opens cma.proyectocma.dao.model.base;
+    opens cma.proyectocma.domain.mapper;
+    opens cma.proyectocma.domain.mapper.util;
     opens cma.proyectocma.domain.service.base;
+    opens cma.proyectocma.dao.repository.base;
 }

@@ -8,14 +8,14 @@ public final class C {
 
     public static final String BBDD = "databaseCMA";
 
+    public static final String ENTITY_SIMPLE_ID = "id";
+    public static final String ENTITY_DOBLE_ID_1 = "id_1";
+    public static final String ENTITY_DOBLE_ID_2 = "id_2";
+
     public static final String ARMARIOCARGA_NOMBRE = "Armarios_Carga";
     public static final String ARMARIOCARGA_PK = "id_dispositivo";
     public static final String AMRARIOCARGA_CAMPO_NUMPUERTOS = "num_puertos";
     public static final String AMRARIOCARGA_CAMPO_VENTILADO = "ventilado";
-
-    public static final String ENTITY_SIMPLE_ID = "id";
-    public static final String ENTITY_DOBLE_ID_1 = "id_1";
-    public static final String ENTITY_DOBLE_ID_2 = "id_2";
 
     public static final String AVERIA_NOMBRE = "Averia";
     public static final String AVERIA_PK = "id_averia";
@@ -60,7 +60,9 @@ public final class C {
     public static final String PERSONA_UNIQUE_GMAIL = "gmail";
 
     public static final String PERSONADISPOSITIVO_NOMBRE = "Persona_Dispositivos";
+    public static final String PERSONADISPOSITIVO_PK_1 = "id1";
     public static final String PERSONADISPOSITIVO_PK_PERSONA = "id_persona";
+    public static final String PERSONADISPOSITIVO_PK_2 = "id2";
     public static final String PERSONADISPOSITIVO_PK_DISPOSITIVO = "id_dispositivo";
 
     public static final String PORTATIL_NOMBRE = "Portatiles";
