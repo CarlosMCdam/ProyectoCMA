@@ -22,10 +22,8 @@ public abstract class ServicePkSimple<T extends Record, E extends EntityPkSimple
     public List<T> findAll() {
         return repository.findAll().stream().map(entity -> {
             try {
-                T dto = dtoClass.getDeclaredConstructor().newInstance();
                 return mapper.fromEntity(entity);
-            } catch (NoSuchMethodException | SecurityException | InstantiationException |
-                     IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            } catch (SecurityException | IllegalArgumentException e) {
                 throw new RuntimeException(e);
             }
         }).toList();

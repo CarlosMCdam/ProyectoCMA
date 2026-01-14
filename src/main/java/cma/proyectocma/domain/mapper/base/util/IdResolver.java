@@ -1,4 +1,4 @@
-package cma.proyectocma.domain.mapper.util;
+package cma.proyectocma.domain.mapper.base.util;
 
 import cma.proyectocma.dao.repository.base.RepositoryPkDoble;
 import cma.proyectocma.dao.repository.base.RepositoryPkSimple;

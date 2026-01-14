@@ -8,8 +8,8 @@ import cma.proyectocma.domain.service.base.ServicePkDoble;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class ServicePersonaDispositivo extends ServicePkDoble<PersonaDispositivoDto, PersonaDispositivo> {
-    public ServicePersonaDispositivo(RepositoryPersonaDispositivo repository, MapperPersonaDispositivo mapper) {
+public final class PersonaDispositivoService extends ServicePkDoble<PersonaDispositivoDto, PersonaDispositivo> {
+    public PersonaDispositivoService(RepositoryPersonaDispositivo repository, MapperPersonaDispositivo mapper) {
         super(PersonaDispositivoDto.class, repository, mapper);
     }
 }

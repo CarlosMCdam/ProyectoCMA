@@ -1,0 +1,17 @@
+package cma.proyectocma.domain.mapper.exception;
+
+import cma.proyectocma.domain.mapper.exception.base.MapperException;
+import lombok.Getter;
+
+import java.util.function.Consumer;
+
+@Getter
+public final class ToEntityPkDobleException extends MapperException {
+    public ToEntityPkDobleException(Exception e) {
+        super(e);
+    }
+
+    public ToEntityPkDobleException(RuntimeException e, Consumer<?> accion) {
+        super(e, accion);
+    }
+}

@@ -1,9 +1,10 @@
 package cma.proyectocma.domain.mapper.base;
 
-import cma.proyectocma.domain.mapper.exception.FromEntitySimpleException;
-import cma.proyectocma.domain.mapper.exception.ToEntitySimpleException;
-import cma.proyectocma.domain.mapper.util.IdResolver;
 import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.common.C;
+import cma.proyectocma.domain.mapper.exception.FromEntityPkSimpleException;
+import cma.proyectocma.domain.mapper.exception.ToEntityPkSimpleException;
+import cma.proyectocma.domain.mapper.base.util.IdResolver;
 import cma.proyectocma.domain.model.util.IdReference;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,16 +34,17 @@ public abstract class MapperPkSimple<T extends Record, E extends EntityPkSimple>
                 IdReference idReference = component.getAnnotation(IdReference.class);
                 try {
                     if (idReference != null) {
-                        EntityPkSimple referencedEntity = (EntityPkSimple) getFieldValue(entity, idReference.value());
+                        EntityPkSimple referencedEntity =
+                                (EntityPkSimple) getFieldValue(entity, idReference.value().getEntityName());
                         return referencedEntity != null ? referencedEntity.getId() : null;
                     } else return getFieldValue(entity, component.getName());
                 } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new FromEntitySimpleException(e);
+                    throw new FromEntityPkSimpleException(e);
                 }
             }).toArray());
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
-            throw new FromEntitySimpleException(e);
+            throw new FromEntityPkSimpleException(e);
         }
     }
 
@@ -58,31 +60,37 @@ public abstract class MapperPkSimple<T extends Record, E extends EntityPkSimple>
                                 entityField.getType(), (Integer) getFieldValue(dto, component.getName())
                         ));
                     } else
-                        setField(entity, component.getName(), getFieldValue(dto, getField(dtoClass, component.getName())));
+                        setField(entity, component.getName(),
+                                getFieldValue(dto, getField(dtoClass, component.getName())));
                 } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new ToEntitySimpleException(e);
+                    throw new ToEntityPkSimpleException(e);
                 }
             });
             return entity;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
-            throw new ToEntitySimpleException(e);
+            throw new ToEntityPkSimpleException(e);
         }
     }
 
     private Field getField(Class<?> objectClass, Object objectReference) throws NoSuchFieldException {
-        Field field = null;
+            Field field = null;
         if (objectReference instanceof Field objectField) field = objectField;
-        if (objectReference instanceof String objectFieldName) field = objectClass.getDeclaredField(objectFieldName);
+        if (objectReference instanceof String objectFieldName)
+            if (objectFieldName.equals(C.ENTITY_SIMPLE_ID))
+                field = objectClass.getSuperclass().getDeclaredField(objectFieldName);
+            else field = objectClass.getDeclaredField(objectFieldName);
         if (field != null) field.setAccessible(true);
         return field;
     }
 
-    private Object getFieldValue(Object object, Object objectReference) throws NoSuchFieldException, IllegalAccessException {
+    private Object getFieldValue(@NotNull Object object, Object objectReference)
+            throws NoSuchFieldException, IllegalAccessException {
         return getField(object.getClass(), objectReference).get(object);
     }
 
-    private void setField(Object target, Object targetReference, Object value) throws NoSuchFieldException, IllegalAccessException {
+    private void setField(@NotNull Object target, Object targetReference, Object value)
+            throws NoSuchFieldException, IllegalAccessException {
         getField(target.getClass(), targetReference).set(target, value);
     }
 }

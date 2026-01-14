@@ -20,7 +20,7 @@ public @interface DtoId {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     enum IdIndex {
 
-        SIMPLE(C.ID_SIMPLE), ID1(C.ID_1), ID2(C.ID_2);
+        SIMPLE(C.ID), ID1(C.ID_DOBLE_1), ID2(C.ID_DOBLE_2);
 
         private final String idName;
 
