@@ -1,4 +1,4 @@
-package cma.proyectocma.domain.service.util;
+package cma.proyectocma.dao.repository.provider;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ServiceProviderContainer {
+public @interface EnableRepositoryProviderContainer {
 
-    ServiceProvider[] value();
+    EnableRepositoryProvider[] value();
 
 }

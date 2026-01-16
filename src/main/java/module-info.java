@@ -44,8 +44,8 @@ module cma.proyectocma {
     opens cma.proyectocma.domain.mapper.base;
     opens cma.proyectocma.domain.mapper.base.util;
     opens cma.proyectocma.dao.repository.base;
-    opens cma.proyectocma.domain.service.util;
-    opens cma.proyectocma.domain.mapper.util;
-    opens cma.proyectocma.dao.repository.util;
+    opens cma.proyectocma.domain.service.provider;
+    opens cma.proyectocma.domain.mapper.provider;
+    opens cma.proyectocma.dao.repository.provider;
 
 }

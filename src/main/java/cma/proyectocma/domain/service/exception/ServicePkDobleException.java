@@ -6,6 +6,10 @@ import java.util.function.Consumer;
 
 public final class ServicePkDobleException extends ServiceException {
 
+    public ServicePkDobleException(String message) {
+        super(message);
+    }
+
     public ServicePkDobleException(Exception e) {
         super(e);
     }

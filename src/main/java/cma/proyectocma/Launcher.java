@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {
         "cma.proyectocma",
-        "cma.proyectocma.dao.repository.util",
-        "cma.proyectocma.domain.mapper.util",
-        "cma.proyectocma.domain.service.util"
+        "cma.proyectocma.dao.repository.provider",
+        "cma.proyectocma.domain.mapper.provider",
+        "cma.proyectocma.domain.service.provider"
 })
 public final class Launcher {
 

@@ -7,6 +7,11 @@ import java.util.function.Consumer;
 
 @Getter
 public final class ToEntityPkDobleException extends MapperException {
+
+    public ToEntityPkDobleException(String message) {
+        super(message);
+    }
+
     public ToEntityPkDobleException(Exception e) {
         super(e);
     }
@@ -14,4 +19,5 @@ public final class ToEntityPkDobleException extends MapperException {
     public ToEntityPkDobleException(Exception e, Consumer<?> accion) {
         super(e, accion);
     }
+
 }

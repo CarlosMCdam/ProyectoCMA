@@ -7,6 +7,11 @@ import java.util.function.Consumer;
 
 @Getter
 public final class FromEntityPkSimpleException extends MapperException {
+
+    public FromEntityPkSimpleException(String message) {
+        super(message);
+    }
+
     public FromEntityPkSimpleException(Exception e) {
         super(e);
     }
@@ -14,4 +19,5 @@ public final class FromEntityPkSimpleException extends MapperException {
     public FromEntityPkSimpleException(Exception e, Consumer<?> accion) {
         super(e, accion);
     }
+
 }

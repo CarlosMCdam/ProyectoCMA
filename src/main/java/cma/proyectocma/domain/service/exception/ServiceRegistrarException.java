@@ -4,17 +4,17 @@ import cma.proyectocma.domain.service.exception.base.ServiceException;
 
 import java.util.function.Consumer;
 
-public final class ServicePkSimpleException extends ServiceException {
+public final class ServiceRegistrarException extends ServiceException {
 
-    public ServicePkSimpleException(String message) {
+    public ServiceRegistrarException(String message) {
         super(message);
     }
 
-    public ServicePkSimpleException(Exception e) {
+    public ServiceRegistrarException(Exception e) {
         super(e);
     }
 
-    public ServicePkSimpleException(Exception e, Consumer<?> accion) {
+    public ServiceRegistrarException(Exception e, Consumer<?> accion) {
         super(e, accion);
     }
 

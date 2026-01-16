@@ -1,4 +1,4 @@
-package cma.proyectocma.domain.mapper.util;
+package cma.proyectocma.domain.mapper.provider;
 
 import cma.proyectocma.dao.model.*;
 import cma.proyectocma.domain.mapper.base.PkDobleMapper;
@@ -6,7 +6,7 @@ import cma.proyectocma.domain.mapper.base.PkSimpleMapper;
 import cma.proyectocma.domain.model.*;
 import org.springframework.context.annotation.Configuration;
 
-@MapperProvider(
+@EnableMapperProvider(
         mapperProvider = PkSimpleMapper.class,
         entities = {
                 ArmarioCarga.class,
@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
                 TabletDto.class
         }
 )
-@MapperProvider(
+@EnableMapperProvider(
         mapperProvider = PkDobleMapper.class,
         entities = {
                 PersonaDispositivo.class

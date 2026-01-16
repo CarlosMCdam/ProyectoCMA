@@ -1,14 +1,12 @@
-package cma.proyectocma.dao.repository.util;
+package cma.proyectocma.domain.service.provider;
 
 import cma.proyectocma.dao.model.*;
-import cma.proyectocma.dao.repository.base.PkDobleRepository;
-import cma.proyectocma.dao.repository.base.PkSimpleRepository;
+import cma.proyectocma.domain.service.base.PkDobleService;
+import cma.proyectocma.domain.service.base.PkSimpleService;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@RepositoryProvider(
-        repositoryProvider = PkSimpleRepository.class,
+@EnableServiceProvider(
+        serviceProvider = PkSimpleService.class,
         entities = {
                 ArmarioCarga.class,
                 Averia.class,
@@ -22,13 +20,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 Tablet.class
         }
 )
-@RepositoryProvider(
-        repositoryProvider = PkDobleRepository.class,
+@EnableServiceProvider(
+        serviceProvider = PkDobleService.class,
         entities = {
                 PersonaDispositivo.class
         }
 )
-@EnableJpaRepositories(basePackages = "cma.proyectocma.dao.repository")
 @Configuration(proxyBeanMethods = false)
-public final class RepositoryConfig {
+public final class ServiceConfig {
 }

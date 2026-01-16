@@ -1,5 +1,6 @@
 package cma.proyectocma.ui.controller;
 
+import cma.proyectocma.dao.repository.base.PkSimpleRepository;
 import cma.proyectocma.domain.mapper.base.PkSimpleMapper;
 import cma.proyectocma.domain.model.ArmarioCargaDto;
 import cma.proyectocma.domain.service.base.PkSimpleService;
@@ -8,13 +9,20 @@ import javafx.scene.control.Label;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Component
 public final class ArmarioCargaController {
 
-    private final PkSimpleMapper<ArmarioCargaDto, ?> service;
+    private final PkSimpleService<ArmarioCargaDto, ?> service;
+    private final PkSimpleMapper<ArmarioCargaDto, ?> mapper;
+    private final PkSimpleRepository<?> repository;
 
-    public ArmarioCargaController(@Qualifier("ArmarioCargaMapper") PkSimpleMapper<ArmarioCargaDto, ?> service) {
+    public ArmarioCargaController(
+            @Qualifier("ArmarioCargaService") PkSimpleService<ArmarioCargaDto, ?> service,
+            @Qualifier("ArmarioCargaMapper") PkSimpleMapper<ArmarioCargaDto, ?> mapper,
+            @Qualifier("ArmarioCargaRepository") PkSimpleRepository<?> repository
+            ) {
         this.service = service;
+        this.mapper = mapper;
+        this.repository = repository;
     }
 
     @FXML
