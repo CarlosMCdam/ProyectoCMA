@@ -20,7 +20,7 @@ public @interface IdReference {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     enum Entity {
 
-        DISPOSITIVO(C.REF_DISPOSITIVO), MODELO(C.REF_MODELO), PERSONA(C.REF_PERSONA);
+        DISPOSITIVO(C.REFERENCE_DISPOSITIVO), MODELO(C.REFERENCE_MODELO), PERSONA(C.REFERENCE_PERSONA);
 
         private final String entityName;
 

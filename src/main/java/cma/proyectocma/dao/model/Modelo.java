@@ -1,6 +1,6 @@
 package cma.proyectocma.dao.model;
 
-import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.base.PkSimpleEntity;
 import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Entity
 @Table(name = C.MODELO_NOMBRE, schema = C.BBDD)
 @AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.MODELO_PK))
-public class Modelo extends EntityPkSimple {
+public class Modelo extends PkSimpleEntity {
 
     @Column(name = C.MODELO_CAMPO_NOMBRE, nullable = false, length = 100)
     private String nombre;

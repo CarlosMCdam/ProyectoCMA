@@ -23,6 +23,8 @@ module cma.proyectocma {
     requires org.slf4j;
     requires spring.core;
     requires annotations;
+    requires spring.beans;
+    requires net.bytebuddy;
 
     // --- Paquetes abiertos/exports ---
     opens cma.proyectocma to javafx.fxml;
@@ -34,13 +36,16 @@ module cma.proyectocma {
     exports cma.proyectocma.ui.controller;
     opens cma.proyectocma.ui.controller to javafx.fxml;
 
-    opens cma.proyectocma.domain.service;
+    opens cma.proyectocma.domain.service.base;
 
     // --- Entidades y DAO (Hibernate/Spring Data necesitan reflexión) ---
     opens cma.proyectocma.dao.model;
     opens cma.proyectocma.dao.model.base;
-    opens cma.proyectocma.domain.mapper;
+    opens cma.proyectocma.domain.mapper.base;
     opens cma.proyectocma.domain.mapper.base.util;
-    opens cma.proyectocma.domain.service.base;
     opens cma.proyectocma.dao.repository.base;
+    opens cma.proyectocma.domain.service.util;
+    opens cma.proyectocma.domain.mapper.util;
+    opens cma.proyectocma.dao.repository.util;
+
 }

@@ -1,10 +1,12 @@
 package cma.proyectocma.domain.model;
 
 import cma.proyectocma.domain.model.util.DtoId;
+import cma.proyectocma.domain.model.util.EntityReference;
 import cma.proyectocma.domain.model.util.IdReference;
 
 import java.time.LocalDate;
 
+@EntityReference("Averia")
 public record AveriaDto(
         @DtoId
         Integer id,

@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import java.util.concurrent.Callable;
 
 public final class TaskLauncher<T> {
+
     public TaskLauncher(Callable<T> metodo, EventHandler<WorkerStateEvent> evento) {
         Task<T> task = new Task<>() {
             @Override
@@ -17,4 +18,5 @@ public final class TaskLauncher<T> {
         task.setOnSucceeded(evento);
         new Thread(task).start();
     }
+
 }

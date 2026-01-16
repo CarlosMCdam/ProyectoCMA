@@ -1,6 +1,6 @@
 package cma.proyectocma.dao.model;
 
-import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.base.PkSimpleEntity;
 import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import lombok.Setter;
         @UniqueConstraint(name = C.PERSONA_UNIQUE_GMAIL, columnNames = {C.PERSONA_CAMPO_GMAIL})
 })
 @AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.PERSONA_PK))
-public class Persona extends EntityPkSimple {
+public class Persona extends PkSimpleEntity {
 
     @Column(name = C.PERSONA_CAMPO_GMAIL, nullable = false, length = 100)
     private String gmail;

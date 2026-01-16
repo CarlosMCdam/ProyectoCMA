@@ -11,7 +11,7 @@ public final class ToEntityPkDobleException extends MapperException {
         super(e);
     }
 
-    public ToEntityPkDobleException(RuntimeException e, Consumer<?> accion) {
+    public ToEntityPkDobleException(Exception e, Consumer<?> accion) {
         super(e, accion);
     }
 }

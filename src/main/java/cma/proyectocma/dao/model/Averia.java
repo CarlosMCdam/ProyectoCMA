@@ -1,6 +1,6 @@
 package cma.proyectocma.dao.model;
 
-import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.base.PkSimpleEntity;
 import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = C.AVERIA_NOMBRE, schema = C.BBDD)
 @AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.AVERIA_PK))
-public class Averia extends EntityPkSimple {
+public class Averia extends PkSimpleEntity {
 
     @Column(name = C.AVERIA_CAMPO_DESCRIPCION, nullable = false)
     private String descripcion;

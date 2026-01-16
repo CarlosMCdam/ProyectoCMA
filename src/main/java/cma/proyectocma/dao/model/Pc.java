@@ -1,6 +1,6 @@
 package cma.proyectocma.dao.model;
 
-import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.base.PkSimpleEntity;
 import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Table(name = C.PC_NOMBRE, schema = C.BBDD)
 @AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.PC_PK))
-public class Pc extends EntityPkSimple {
+public class Pc extends PkSimpleEntity {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)

@@ -11,7 +11,7 @@ public final class ToEntityPkSimpleException extends MapperException {
         super(e);
     }
 
-    public ToEntityPkSimpleException(RuntimeException e, Consumer<?> accion) {
+    public ToEntityPkSimpleException(Exception e, Consumer<?> accion) {
         super(e, accion);
     }
 }

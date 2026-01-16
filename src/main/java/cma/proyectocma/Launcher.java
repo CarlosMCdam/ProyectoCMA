@@ -1,14 +1,21 @@
 package cma.proyectocma;
 
-import cma.proyectocma.dao.repository.base.RepositoryPkSimple;
 import cma.proyectocma.ui.ApplicationCMA;
 import javafx.application.Application;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {
+        "cma.proyectocma",
+        "cma.proyectocma.dao.repository.util",
+        "cma.proyectocma.domain.mapper.util",
+        "cma.proyectocma.domain.service.util"
+})
 public final class Launcher {
+
     public static void main(String[] args) {
         Application.launch(ApplicationCMA.class, args);
     }
+
 }

@@ -1,6 +1,6 @@
 package cma.proyectocma.dao.model;
 
-import cma.proyectocma.dao.model.base.EntityPkDoble;
+import cma.proyectocma.dao.model.base.PkDobleEntity;
 import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,11 +13,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = C.PERSONADISPOSITIVO_NOMBRE, schema = C.BBDD)
-@AttributeOverrides({
-        @AttributeOverride(name = C.ENTITY_DOBLE_ID_1, column = @Column(name = C.PERSONADISPOSITIVO_PK_PERSONA)),
-        @AttributeOverride(name = C.ENTITY_DOBLE_ID_2, column = @Column(name = C.PERSONADISPOSITIVO_PK_DISPOSITIVO))
-})
-public class PersonaDispositivo extends EntityPkDoble {
+@AttributeOverride(name = C.ENTITY_DOBLE_ID_1, column = @Column(name = C.PERSONADISPOSITIVO_PK_PERSONA))
+@AttributeOverride(name = C.ENTITY_DOBLE_ID_2, column = @Column(name = C.PERSONADISPOSITIVO_PK_DISPOSITIVO))
+public class PersonaDispositivo extends PkDobleEntity {
 
     @MapsId(C.PERSONADISPOSITIVO_PK_1)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

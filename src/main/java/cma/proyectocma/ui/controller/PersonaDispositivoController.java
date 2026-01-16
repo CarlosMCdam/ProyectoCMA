@@ -1,6 +1,8 @@
 package cma.proyectocma.ui.controller;
 
-import cma.proyectocma.domain.service.PersonaDispositivoService;
+import cma.proyectocma.dao.model.PersonaDispositivo;
+import cma.proyectocma.domain.model.PersonaDispositivoDto;
+import cma.proyectocma.domain.service.base.PkDobleService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.springframework.stereotype.Component;
@@ -8,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonaDispositivoController {
 
-    private final PersonaDispositivoService service;
+    private final PkDobleService<PersonaDispositivoDto, ?> service;
 
-    public PersonaDispositivoController(PersonaDispositivoService service) {
+    public PersonaDispositivoController(PkDobleService<PersonaDispositivoDto, ?> service) {
         this.service = service;
     }
 

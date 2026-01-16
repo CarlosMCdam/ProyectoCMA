@@ -2,6 +2,7 @@ package cma.proyectocma.ui;
 
 import cma.proyectocma.Launcher;
 import cma.proyectocma.ui.common.C;
+import cma.proyectocma.ui.util.AppExceptionHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ public final class ApplicationCMA extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> AppExceptionHandler.handle(thread, throwable));
         FXMLLoader loader = new FXMLLoader(ApplicationCMA.class.getResource(
                 C.APP_PATH_FXML_ROOT
         ));
@@ -34,4 +36,5 @@ public final class ApplicationCMA extends Application {
     public void stop() {
         context.close();
     }
+
 }

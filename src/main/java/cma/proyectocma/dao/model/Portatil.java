@@ -1,6 +1,6 @@
 package cma.proyectocma.dao.model;
 
-import cma.proyectocma.dao.model.base.EntityPkSimple;
+import cma.proyectocma.dao.model.base.PkSimpleEntity;
 import cma.proyectocma.dao.model.common.C;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = C.PORTATIL_NOMBRE, schema = C.BBDD)
-public class Portatil extends EntityPkSimple {
+public class Portatil extends PkSimpleEntity {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
