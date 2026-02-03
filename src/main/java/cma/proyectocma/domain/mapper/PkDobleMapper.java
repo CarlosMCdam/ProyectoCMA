@@ -12,16 +12,37 @@ import cma.proyectocma.domain.model.util.IdReference;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+/**
+ * Mapper universal para entidades JPA con clave primaria compuesta.
+ * @param <D> DTO.
+ * @param <E> Entidad.
+ */
 public final class PkDobleMapper<D extends Record, E extends EntityPkDoble> extends Mapper<D, E> {
 
+    /**
+     * Clase del DTO.
+     */
     private final Class<D> dtoClass;
+    /**
+     * Clase de la entidad.
+     */
     private final Class<E> entityClass;
 
+    /**
+     * Constructor completo.
+     * @param dtoClass Clase del DTO.
+     * @param entityClass Clase de la entidad.
+     */
     public PkDobleMapper(Class<D> dtoClass, Class<E> entityClass) {
         this.dtoClass = dtoClass;
         this.entityClass = entityClass;
     }
 
+    /**
+     * Mapea de entidad a DTO.
+     * @param entity Entidad.
+     * @return DTO.
+     */
     public D fromEntity(E entity) {
         try {
             return getDtoConstructor(dtoClass).newInstance(valuesFromEntity(dtoClass, entity, entityClass));
@@ -30,6 +51,13 @@ public final class PkDobleMapper<D extends Record, E extends EntityPkDoble> exte
         }
     }
 
+    /**
+     * Mapea de DTO a entidad.
+     * Se obtiene el constructor vacío, se construye e instancia la clave primaria de la entidad a partir de los atributos
+     * marcados como @DtoId en el DTO, y se mapean los demás atributos.
+     * @param dto DTO.
+     * @return Entidad.
+     */
     public E toEntity(D dto) {
         try {
             E entity = entityClass.getDeclaredConstructor().newInstance();

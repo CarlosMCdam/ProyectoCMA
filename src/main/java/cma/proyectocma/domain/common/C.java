@@ -3,6 +3,9 @@ package cma.proyectocma.domain.common;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Constantes del domain.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class C {
 

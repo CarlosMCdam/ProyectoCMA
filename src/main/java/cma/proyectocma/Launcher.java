@@ -1,14 +1,23 @@
 package cma.proyectocma;
 
-import cma.proyectocma.dao.repository.base.RepositoryPkSimple;
 import cma.proyectocma.ui.ApplicationCMA;
 import javafx.application.Application;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@SpringBootApplication
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Launcher {
-    public static void main(String[] args) {
+    static void main(String[] args) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/databaseCMA",
+                "cma",
+                "cma"
+        );
+        System.out.println("OK");
         Application.launch(ApplicationCMA.class, args);
     }
 }

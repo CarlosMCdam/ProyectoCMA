@@ -1,6 +1,5 @@
 package cma.proyectocma.domain.model.util;
 
-import cma.proyectocma.data.model.base.Entity;
 import cma.proyectocma.domain.common.C;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Representa un atributo del DTO que guarda la clave primaria de la entidad JPA referenciada en la entidad JPA correspondiente.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.RECORD_COMPONENT)
 public @interface IdReference {

@@ -3,6 +3,9 @@ package cma.proyectocma.data.model.common;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Constantes de las entidades JPA.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class C {
 

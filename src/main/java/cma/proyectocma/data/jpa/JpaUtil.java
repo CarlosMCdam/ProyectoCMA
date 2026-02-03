@@ -9,28 +9,47 @@ import lombok.NoArgsConstructor;
 
 import java.util.function.Function;
 
+/**
+ * Proveedor del EntityManager para funciones que lo usan.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JpaUtil {
 
+    /**
+     * Clase factory del EntityManager.
+     */
     private static EntityManagerFactory emf;
 
-    private static EntityManagerFactory getEmf() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory(C.JPA_PERSISTENCEUNITNAME);
-        }
-        return emf;
-    }
-
+    /**
+     * Getter con seguridad de nulo e instanciación del EntityManager.
+     *
+     * @return EntityManager
+     */
     private static EntityManager getEntityManager() {
-        return getEmf().createEntityManager();
+        if (emf == null) emf = Persistence.createEntityManagerFactory(C.JPA_PERSISTENCEUNITNAME);
+        return emf.createEntityManager();
     }
 
+    /**
+     * Ejecuta una función que utiliza el EntityManager.
+     *
+     * @param action Función
+     * @param <R>    Tipo de retorno de la función
+     * @return Resultado de la función
+     */
     public static <R> R execute(Function<EntityManager, R> action) {
         try (EntityManager em = getEntityManager()) {
             return action.apply(em);
         }
     }
 
+    /**
+     * Ejecuta una función transaccional que utiliza el EntityManager.
+     *
+     * @param action Función
+     * @param <R>    Tipo de retorno de la función
+     * @return Resultado de la función
+     */
     public static <R> R executeTransaction(Function<EntityManager, R> action) {
         EntityManager em = getEntityManager();
         try {

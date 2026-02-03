@@ -14,15 +14,25 @@ import org.hibernate.Hibernate;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Superclase de todas las entidades con clave primaria doble.
+ */
+
 @Getter
 @Setter
 
 @MappedSuperclass
 public abstract non-sealed class EntityPkDoble extends Entity {
 
+    /**
+     * Clave primaria.
+     */
     @EmbeddedId
     private PkDoble id;
 
+    /**
+     * Clase que define el tipo de la clave primaria.
+     */
     @Getter
     @Setter
     @NoArgsConstructor
@@ -31,21 +41,36 @@ public abstract non-sealed class EntityPkDoble extends Entity {
     @Embeddable
     public static class PkDoble implements Serializable {
 
+        /**
+         * Primer identificador de la clave primaria.
+         */
         @Column(name = C.ENTITY_DOBLE_ID_1, nullable = false)
         private Integer id1;
 
+        /**
+         * Segundo identificador de la clave primaria.
+         */
         @Column(name = C.ENTITY_DOBLE_ID_2, nullable = false)
         private Integer id2;
 
+        /**
+         * Override del método equals.
+         * @param o Objeto de referencia con el que comparar.
+         * @return Si ambos identificadores de ambas claves son iguales.
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-            PkDoble entity = (PkDoble) o;
-            return Objects.equals(this.id1, entity.getId1()) &&
-                    Objects.equals(this.id2, entity.getId2());
+            PkDoble pkDoble = (PkDoble) o;
+            return Objects.equals(this.id1, pkDoble.getId1()) &&
+                    Objects.equals(this.id2, pkDoble.getId2());
         }
 
+        /**
+         * Override del método hashCode.
+         * @return Ambos identificadores hasheados.
+         */
         @Override
         public int hashCode() {
             return Objects.hash(id2, id1);

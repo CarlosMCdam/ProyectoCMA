@@ -14,16 +14,37 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+/**
+ * Mapper universal para entidades JPA con clave primaria simple.
+ * @param <D>
+ * @param <E>
+ */
 public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> extends Mapper<D, E> {
 
+    /**
+     * Clase del DTO.
+     */
     Class<D> dtoClass;
+    /**
+     * Clase de la entidad.
+     */
     Class<E> entityClass;
 
+    /**
+     * Constructor completo.
+     * @param dtoClass Clase del DTO.
+     * @param entityClass Clase de la entidad.
+     */
     public PkSimpleMapper(Class<D> dtoClass, Class<E> entityClass) {
         this.dtoClass = dtoClass;
         this.entityClass = entityClass;
     }
 
+    /**
+     * Mapea de entidad a DTO.
+     * @param entity Entidad.
+     * @return DTO.
+     */
     public D fromEntity(E entity) {
         try {
             return getDtoConstructor(dtoClass).newInstance(valuesFromEntity(dtoClass, entity, entityClass));
@@ -32,6 +53,11 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
         }
     }
 
+    /**
+     * Mapea de DTO a entidad.
+     * @param dto DTO.
+     * @return Entidad.
+     */
     public E toEntity(D dto) {
         try {
             E entity = entityClass.getDeclaredConstructor().newInstance();
@@ -43,6 +69,11 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
         }
     }
 
+    /**
+     * Obtiene los valores de los atributos del DTO y los aplica a los de la entidad.
+     * @param dto DTO.
+     * @param entity Entidad.
+     */
     private void valuesToEntity(D dto, E entity) {
         Arrays.stream(dtoClass.getRecordComponents()).forEach(component -> {
             IdReference idReference = component.getAnnotation(IdReference.class);
