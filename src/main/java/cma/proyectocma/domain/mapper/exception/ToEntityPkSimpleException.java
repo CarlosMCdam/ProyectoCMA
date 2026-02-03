@@ -7,6 +7,11 @@ import java.util.function.Consumer;
 
 @Getter
 public final class ToEntityPkSimpleException extends MapperException {
+
+    public ToEntityPkSimpleException(String message) {
+        super(message);
+    }
+
     public ToEntityPkSimpleException(Exception e) {
         super(e);
     }

@@ -1,5 +1,6 @@
 package cma.proyectocma.domain.model.util;
 
+import cma.proyectocma.data.model.base.Entity;
 import cma.proyectocma.domain.common.C;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,10 @@ public @interface IdReference {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     enum Entity {
 
-        DISPOSITIVO(C.REF_DISPOSITIVO), MODELO(C.REF_MODELO), PERSONA(C.REF_PERSONA);
+        DISPOSITIVO(C.REF_DISPOSITIVO), MODELO(C.REF_MODELO), PERSONA(C.REF_PERSONA), PC(C.REF_PC);
 
         private final String entityName;
 
     }
+
 }

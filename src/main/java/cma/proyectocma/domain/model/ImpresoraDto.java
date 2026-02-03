@@ -5,7 +5,6 @@ import cma.proyectocma.domain.model.util.IdReference;
 
 public record ImpresoraDto(
         @DtoId
-        Integer id,
         @IdReference(IdReference.Entity.DISPOSITIVO)
         Integer idDispositivo,
         String tipoImpresion,

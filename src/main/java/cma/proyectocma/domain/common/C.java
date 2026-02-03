@@ -13,5 +13,6 @@ public final class C {
     public static final String REF_DISPOSITIVO = "dispositivo";
     public static final String REF_MODELO = "modelo";
     public static final String REF_PERSONA = "persona";
+    public static final String REF_PC = "pc";
 
 }

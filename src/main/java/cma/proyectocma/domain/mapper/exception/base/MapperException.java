@@ -7,18 +7,23 @@ import cma.proyectocma.domain.mapper.exception.ToEntityPkSimpleException;
 
 import java.util.function.Consumer;
 
-public abstract sealed class MapperException extends RuntimeException
+public sealed class MapperException extends RuntimeException
         permits FromEntityPkSimpleException, ToEntityPkSimpleException, FromEntityPkDobleException, ToEntityPkDobleException {
 
     private final Consumer<?> accion;
 
-    protected MapperException(Exception e) {
-        super(e);
+    public MapperException(String message) {
+        super(message);
         this.accion = null;
     }
 
-    protected MapperException(Exception e, Consumer<?> accion) {
-        super(e);
+    public MapperException(Exception exception) {
+        super(exception);
+        this.accion = null;
+    }
+
+    protected MapperException(Exception exception, Consumer<?> accion) {
+        super(exception);
         this.accion = accion;
     }
 }

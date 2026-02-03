@@ -25,4 +25,5 @@ public @interface DtoId {
         private final String idName;
 
     }
+
 }
