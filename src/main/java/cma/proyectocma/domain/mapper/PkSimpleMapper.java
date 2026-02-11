@@ -86,11 +86,11 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
             IdReference idReference = component.getAnnotation(IdReference.class);
             try {
                 if (idReference != null) {
-                    final String entityFieldName;
                     final Field entityField = entityClass.getDeclaredField(idReference.value().getEntityName());
-                    if (component.isAnnotationPresent(DtoId.class)) entityFieldName = C.ID;
-                    else entityFieldName = entityField.getName();
-                    setValue(entity, entityFieldName, new IdResolver<>(
+                    System.out.println("------" + entityField);
+                    if (component.isAnnotationPresent(DtoId.class))
+                        setValue(entity, C.ID, component.getAccessor().invoke(dto));
+                    setValue(entity, entityField, new IdResolver<>(
                             (Class<? extends Entity>) entityField.getType()
                     ).resolve(
                             (Integer) component.getAccessor().invoke(dto)

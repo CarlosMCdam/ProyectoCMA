@@ -16,6 +16,7 @@ public final class ApplicationCMA extends Application {
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(new MenuController().init().getRootNode(), 1440, 720);
         stage.setScene(scene);
+        stage.setTitle("ProyectoCMA - Gestor de Inventario");
         stage.getIcons().add(new Image(Objects.requireNonNull(ApplicationCMA.class.getResourceAsStream(C.PATH_IMAGE_ICON))));
         stage.show();
     }

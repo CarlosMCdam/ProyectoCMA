@@ -19,6 +19,7 @@ import lombok.Setter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.RecordComponent;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
@@ -91,7 +92,7 @@ public final class DetalleController extends EmbeddedController<BorderPane, Deta
                                 } catch (IllegalAccessException | InvocationTargetException e) {
                                     throw new UiException(e);
                                 }
-                                VBox vbox = (VBox) valuesContainer.getChildren().get(i - 1);
+                                VBox vbox = (VBox) valuesContainer.getChildren().get(i);
                                 String textFieldText = ((TextField) vbox.getChildren().get(1)).getText();
                                 Class<?> tipo = components[i].getType();
                                 return !textFieldText.isEmpty() && !textFieldText.equals("---") ? convertir(textFieldText, tipo) : null;
@@ -117,6 +118,7 @@ public final class DetalleController extends EmbeddedController<BorderPane, Deta
         if (tipo == Double.class || tipo == double.class) return Double.valueOf(texto);
         if (tipo == Boolean.class || tipo == boolean.class) return Boolean.valueOf(texto);
         if (tipo == BigDecimal.class) return new BigDecimal(texto);
+        if (tipo == LocalDate.class) return LocalDate.parse(texto);
         return texto;
     }
 
