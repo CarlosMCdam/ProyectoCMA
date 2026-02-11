@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Impresora extends EntityPkSimple {
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.IMPRESORA_PK, nullable = false)
     private Dispositivo dispositivo;
 

@@ -33,11 +33,11 @@ public class Averia extends EntityPkSimple {
     @Column(name = C.AVERIA_CAMPO_FECHAFINAL)
     private LocalDate fechaFinal;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.AVERIA_CAMPO_IDDISPOSITIVO, nullable = false)
     private Dispositivo dispositivo;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.AVERIA_CAMPO_IDPERSONA, nullable = false)
     private Persona persona;
 

@@ -8,7 +8,7 @@ import cma.proyectocma.domain.model.*;
 import cma.proyectocma.domain.service.PkDobleService;
 import cma.proyectocma.domain.service.PkSimpleService;
 import cma.proyectocma.domain.service.base.Service;
-import cma.proyectocma.ui.controller.listado.ListadoTipo;
+import cma.proyectocma.ui.screen.listado.ListadoTipo;
 
 import java.util.Arrays;
 

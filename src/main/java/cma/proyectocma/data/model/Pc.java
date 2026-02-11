@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Pc extends EntityPkSimple {
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.PC_PK, nullable = false)
     private Dispositivo dispositivo;
 

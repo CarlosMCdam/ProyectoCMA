@@ -20,8 +20,8 @@ cma.proyectocma.domain.service.base
 cma.proyectocma.domain.service.exception.base
 cma.proyectocma.ui
 cma.proyectocma.ui.common
-cma.proyectocma.ui.controller.base
-cma.proyectocma.ui.controller.detalle
-cma.proyectocma.ui.controller.listado
-cma.proyectocma.ui.controller.menu
+cma.proyectocma.ui.screen.base
+cma.proyectocma.ui.screen.detalle
+cma.proyectocma.ui.screen.listado
+cma.proyectocma.ui.screen.menu
 cma.proyectocma.ui.util

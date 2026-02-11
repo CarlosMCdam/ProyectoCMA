@@ -16,7 +16,7 @@ import lombok.Setter;
 @AttributeOverride(name = C.ENTITY_SIMPLE_ID, column = @Column(name = C.DISPOSITIVO_PK))
 public class Dispositivo extends EntityPkSimple {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.DISPOSITIVO_CAMPO_IDMODELO, nullable = false)
     private Modelo modelo;
 

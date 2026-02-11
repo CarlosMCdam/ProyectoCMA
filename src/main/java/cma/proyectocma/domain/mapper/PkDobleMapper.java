@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 /**
  * Mapper universal para entidades JPA con clave primaria compuesta.
+ *
  * @param <D> DTO.
  * @param <E> Entidad.
  */
@@ -30,7 +31,8 @@ public final class PkDobleMapper<D extends Record, E extends EntityPkDoble> exte
 
     /**
      * Constructor completo.
-     * @param dtoClass Clase del DTO.
+     *
+     * @param dtoClass    Clase del DTO.
      * @param entityClass Clase de la entidad.
      */
     public PkDobleMapper(Class<D> dtoClass, Class<E> entityClass) {
@@ -40,6 +42,7 @@ public final class PkDobleMapper<D extends Record, E extends EntityPkDoble> exte
 
     /**
      * Mapea de entidad a DTO.
+     *
      * @param entity Entidad.
      * @return DTO.
      */
@@ -55,12 +58,24 @@ public final class PkDobleMapper<D extends Record, E extends EntityPkDoble> exte
      * Mapea de DTO a entidad.
      * Se obtiene el constructor vacío, se construye e instancia la clave primaria de la entidad a partir de los atributos
      * marcados como @DtoId en el DTO, y se mapean los demás atributos.
+     *
      * @param dto DTO.
      * @return Entidad.
      */
     public E toEntity(D dto) {
         try {
             E entity = entityClass.getDeclaredConstructor().newInstance();
+            valuesToEntity(dto, entity);
+            return entity;
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                 IllegalAccessException e) {
+            throw new ToEntityPkDobleException(e);
+        }
+    }
+
+    @Override
+    protected void valuesToEntity(D dto, E entity) {
+        try {
             EntityPkDoble.PkDoble pk = EntityPkDoble.PkDoble.class.getDeclaredConstructor().newInstance();
             Arrays.stream(dto.getClass().getRecordComponents()).forEach(component -> {
                 DtoId dtoIdAnnotation = component.getAnnotation(DtoId.class);
@@ -75,21 +90,18 @@ public final class PkDobleMapper<D extends Record, E extends EntityPkDoble> exte
                         try {
                             if (idReference != null)
                                 setValue(entity, idReference.value().getEntityName(), new IdResolver<>(
-                                        (Class<EntityPkSimple>) getValue(entity, idReference.value().getEntityName()).orElseThrow(() ->
-                                                new ToEntityPkDobleException("")
-                                        ).getClass()
+                                        (Class<EntityPkSimple>) getValue(entity, idReference.value().getEntityName()).orElseThrow().getClass()
                                 ).resolve(
                                         (Integer) component.getAccessor().invoke(dto)
                                 ));
                             else
-                                setValue(entity, component.getName(), getValue(dto, dtoClass.getField(component.getName())));
-                        } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException e) {
+                                setValue(entity, component.getName(), getValue(dto, component.getName()).orElse(null));
+                        } catch (IllegalAccessException | InvocationTargetException e) {
                             throw new ToEntityPkDobleException(e);
                         }
                     });
-            return entity;
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
-                 IllegalAccessException e) {
+                IllegalAccessException e) {
             throw new ToEntityPkDobleException(e);
         }
     }

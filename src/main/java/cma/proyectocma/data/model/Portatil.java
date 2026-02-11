@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 public class Portatil extends EntityPkSimple {
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.PORTATIL_PK, nullable = false)
     private Pc pc;
 

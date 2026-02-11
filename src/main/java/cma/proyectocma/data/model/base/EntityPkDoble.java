@@ -17,12 +17,11 @@ import java.util.Objects;
 /**
  * Superclase de todas las entidades con clave primaria doble.
  */
-
 @Getter
 @Setter
 
 @MappedSuperclass
-public abstract non-sealed class EntityPkDoble extends Entity {
+public abstract non-sealed class EntityPkDoble extends Entity<EntityPkDoble.PkDoble> {
 
     /**
      * Clave primaria.

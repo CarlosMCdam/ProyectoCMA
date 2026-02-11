@@ -16,6 +16,7 @@ import java.util.Arrays;
 
 /**
  * Mapper universal para entidades JPA con clave primaria simple.
+ *
  * @param <D>
  * @param <E>
  */
@@ -25,6 +26,7 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
      * Clase del DTO.
      */
     Class<D> dtoClass;
+
     /**
      * Clase de la entidad.
      */
@@ -32,7 +34,8 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
 
     /**
      * Constructor completo.
-     * @param dtoClass Clase del DTO.
+     *
+     * @param dtoClass    Clase del DTO.
      * @param entityClass Clase de la entidad.
      */
     public PkSimpleMapper(Class<D> dtoClass, Class<E> entityClass) {
@@ -42,6 +45,7 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
 
     /**
      * Mapea de entidad a DTO.
+     *
      * @param entity Entidad.
      * @return DTO.
      */
@@ -55,6 +59,7 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
 
     /**
      * Mapea de DTO a entidad.
+     *
      * @param dto DTO.
      * @return Entidad.
      */
@@ -71,20 +76,21 @@ public final class PkSimpleMapper<D extends Record, E extends EntityPkSimple> ex
 
     /**
      * Obtiene los valores de los atributos del DTO y los aplica a los de la entidad.
-     * @param dto DTO.
+     *
+     * @param dto    DTO.
      * @param entity Entidad.
      */
-    private void valuesToEntity(D dto, E entity) {
+    @Override
+    protected void valuesToEntity(D dto, E entity) {
         Arrays.stream(dtoClass.getRecordComponents()).forEach(component -> {
             IdReference idReference = component.getAnnotation(IdReference.class);
             try {
                 if (idReference != null) {
                     final String entityFieldName;
-                    String referencedEntityFieldName = idReference.value().getEntityName();
-                    Field entityField = entityClass.getDeclaredField(referencedEntityFieldName);
+                    final Field entityField = entityClass.getDeclaredField(idReference.value().getEntityName());
                     if (component.isAnnotationPresent(DtoId.class)) entityFieldName = C.ID;
                     else entityFieldName = entityField.getName();
-                        setValue(entity, entityFieldName, new IdResolver<>(
+                    setValue(entity, entityFieldName, new IdResolver<>(
                             (Class<? extends Entity>) entityField.getType()
                     ).resolve(
                             (Integer) component.getAccessor().invoke(dto)

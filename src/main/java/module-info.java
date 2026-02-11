@@ -10,15 +10,16 @@ module cma.proyectocma {
     requires mysql.connector.j;
     requires org.slf4j;
     requires javafx.graphics;
+    requires java.desktop;
 
     opens cma.proyectocma to javafx.fxml;
     exports cma.proyectocma;
 
     exports cma.proyectocma.ui to javafx.graphics;
 
-    opens cma.proyectocma.ui.controller.menu to javafx.fxml;
-    opens cma.proyectocma.ui.controller.listado to javafx.fxml;
-    opens cma.proyectocma.ui.controller.detalle to javafx.fxml;
+    opens cma.proyectocma.ui.screen.menu to javafx.fxml;
+    opens cma.proyectocma.ui.screen.listado to javafx.fxml;
+    opens cma.proyectocma.ui.screen.detalle to javafx.fxml;
 
     opens cma.proyectocma.data.model to org.hibernate.orm.core;
     opens cma.proyectocma.data.model.base to org.hibernate.orm.core;

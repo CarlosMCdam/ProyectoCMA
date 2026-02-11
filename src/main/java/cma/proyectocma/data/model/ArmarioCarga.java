@@ -17,7 +17,7 @@ import lombok.Setter;
 public class ArmarioCarga extends EntityPkSimple {
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.ARMARIOCARGA_PK, nullable = false)
     private Dispositivo dispositivo;
 

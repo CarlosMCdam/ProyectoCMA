@@ -1,5 +1,6 @@
 package cma.proyectocma.domain.service;
 
+import cma.proyectocma.data.model.Dispositivo;
 import cma.proyectocma.data.model.base.EntityPkDoble;
 import cma.proyectocma.data.repository.Repository;
 import cma.proyectocma.domain.mapper.PkSimpleMapper;

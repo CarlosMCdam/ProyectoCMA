@@ -1,7 +1,9 @@
 package cma.proyectocma.domain.mapper.base;
 
+import cma.proyectocma.Launcher;
 import cma.proyectocma.data.model.base.Entity;
-import cma.proyectocma.domain.common.C;
+import cma.proyectocma.data.model.base.EntityPkDoble;
+import cma.proyectocma.data.model.base.EntityPkSimple;
 import cma.proyectocma.domain.mapper.PkDobleMapper;
 import cma.proyectocma.domain.mapper.PkSimpleMapper;
 import cma.proyectocma.domain.mapper.exception.base.MapperException;
@@ -9,7 +11,11 @@ import cma.proyectocma.domain.model.util.DtoId;
 import cma.proyectocma.domain.model.util.IdReference;
 import jakarta.persistence.MapsId;
 
-import java.lang.reflect.*;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.RecordComponent;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
@@ -21,6 +27,7 @@ import java.util.stream.Stream;
  * @param <D> DTO.
  * @param <E> Entidad.
  */
+@SuppressWarnings("java:119")
 public abstract sealed class Mapper<D extends Record, E extends Entity> permits PkSimpleMapper, PkDobleMapper {
 
     /**
@@ -49,14 +56,19 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
      * @param entityClass Clase de la Entidad.
      * @return Array de valores.
      */
-    protected Object[] valuesFromEntity(Class<D> dtoClass, E entity, Class<E> entityClass) {
+    protected <Simple extends EntityPkSimple, Doble extends EntityPkDoble> Object[] valuesFromEntity(
+            Class<D> dtoClass, E entity, Class<E> entityClass
+    ) {
         return mapDtoComponents(dtoClass, component -> {
+            final DtoId dtoId = component.getAnnotation(DtoId.class);
             final IdReference idReference = component.getAnnotation(IdReference.class);
-            if (component.isAnnotationPresent(DtoId.class) && !isSuperclassIdFieldMapped(entityClass))
-                return getValue(entity, C.ID).orElseThrow();
+            if (dtoId != null) {
+                if (entity instanceof EntityPkSimple entityPkSimple) return getIdFromEntity(entityPkSimple);
+                return getIdFromEntity((Doble) entity, dtoId.value().getIdName());
+            }
             if (idReference != null)
-                return getValue(getReferencedEntity(entity, idReference.value().getEntityName()), C.ID).orElseThrow();
-            return getValue(entity, component.getName()).orElseThrow();
+                return getIdFromEntity((Simple) getValue(entity, idReference.value().getEntityName()).orElseThrow());
+            return getValue(entity, component.getName()).orElse(null);
         }).toArray();
     }
 
@@ -69,6 +81,8 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
      */
     public abstract E toEntity(D dto);
 
+    protected abstract void valuesToEntity(D dto, E entity);
+
     /**
      * Obtiene el valor del campo de un objeto a través de su getter.
      * Respeta la convención de nombres de los getters de atributos booleanos.
@@ -77,14 +91,9 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
      * @param field  Atributo de donde se obtiene el valor.
      * @return Valor.
      */
-    protected Optional<Object> getValue(Object origin, Field field) {
-        final Class<?> targetClass = origin.getClass();
+    protected Optional<Object> getValue(Object origin, String fieldName) {
         try {
-            final Method getter;
-            if (field.getType() == Boolean.class)
-                getter = targetClass.getMethod("is" + capitalize(field.getName()));
-            else getter = targetClass.getMethod("get" + capitalize(field.getName()));
-            return Optional.ofNullable(getter.invoke(origin));
+            return Optional.ofNullable(origin.getClass().getMethod("get" + Launcher.capitalize(fieldName)).invoke(origin));
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |
                  InvocationTargetException e) {
             throw new MapperException(e);
@@ -92,22 +101,39 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
     }
 
     /**
-     * Obtiene el valor de un atributo de un objeto a través de su getter.
-     * Respeta la convención de nombres de los getters de atributos booleanos.
+     * Obtiene el identificaor de la superclase de una entidad a través de su getter.
      *
-     * @param origin    Objeto de donde se obtiene el atributo.
-     * @param fieldName Nombre del atributo de donde se obtiene el valor.
-     * @return Valor.
+     * @param entity Entidad de donde se obtiene el atributo.
+     * @param field  Atributo de donde se obtiene el identificador.
+     * @return Identificador.
      */
-    protected Optional<Object> getValue(Object origin, String fieldName) {
+    protected <S extends EntityPkSimple, Id extends Serializable> Id getIdFromEntity(S entity) {
         try {
-            return getValue(origin, Arrays.stream(origin.getClass().getDeclaredFields())
-                    .filter(field -> field.getName() == fieldName)
-                    .findFirst()
-                    .orElseThrow(() -> new MapperException("")));
+            if (isSuperclassIdFieldMapped(entity.getClass()))
+                return (Id) Arrays.stream(entity.getClass().getDeclaredFields())
+                        .filter(field -> field.isAnnotationPresent(MapsId.class))
+                        .findFirst()
+                        .map(field -> (S) getValue(entity, field.getName()).orElseThrow())
+                        .orElseThrow()
+                        .getId();
+            return (Id) entity.getId();
         } catch (SecurityException | IllegalArgumentException e) {
             throw new MapperException(e);
         }
+    }
+
+    protected <Simple extends EntityPkSimple, Doble extends EntityPkDoble, Id extends Serializable> Id getIdFromEntity(
+            Doble entity, String pkFragment
+    ) {
+        return (Id) Arrays.stream(entity.getClass().getDeclaredFields())
+                .filter(field -> {
+                    final MapsId mapsId = field.getAnnotation(MapsId.class);
+                    return mapsId != null && mapsId.value().equals(pkFragment);
+                })
+                .findFirst()
+                .map(field -> (Simple) getValue(entity, field.getName()).orElseThrow())
+                .orElseThrow()
+                .getId();
     }
 
     /**
@@ -120,7 +146,7 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
     protected void setValue(Object target, Field field, Object value) {
         final Class<?> targetClass = target.getClass();
         try {
-            targetClass.getMethod("set" + capitalize(field.getName()), field.getType()).invoke(target, value);
+            targetClass.getMethod("set" + Launcher.capitalize(field.getName()), field.getType()).invoke(target, value);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |
                  InvocationTargetException e) {
             throw new MapperException(e);
@@ -138,7 +164,7 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
         final Class<?> targetClass = target.getClass();
         try {
             Arrays.stream(targetClass.getMethods())
-                    .filter(method -> method.getName().equals("set" + capitalize(fieldName)) && method.getParameterCount() == 1)
+                    .filter(method -> method.getName().equals("set" + Launcher.capitalize(fieldName)) && method.getParameterCount() == 1)
                     .findFirst()
                     .orElseThrow(() -> new MapperException(""))
                     .invoke(target, value);
@@ -155,19 +181,17 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
      * @param referencedEntityName Nombre de la entidad referenciada.
      * @return Entidad referenciada.
      */
-    protected Object getReferencedEntity(E origin, String referencedEntityName) {
-        try {
-            return Class.forName("cma.proyectocma.data.model." + capitalize(referencedEntityName)).cast(getValue(origin, referencedEntityName).orElseThrow());
-        } catch (ClassNotFoundException e) {
-            throw new MapperException(e);
-        }
+    protected <R extends Entity> R getReferencedEntity(E origin, String referencedEntityName) {
+        Object referenced = getValue(origin, referencedEntityName).orElseThrow();
+        if (!(referenced instanceof Entity)) throw new MapperException("");
+        return (R) referenced;
     }
 
     /**
      * @param entityClass Clase de la entidad.
      * @return Si la clave primaria de la clase de la entidad es a su vez clave foránea.
      */
-    protected boolean isSuperclassIdFieldMapped(Class<E> entityClass) {
+    protected <S extends Entity> boolean isSuperclassIdFieldMapped(Class<S> entityClass) {
         return Arrays.stream(entityClass.getDeclaredFields())
                 .anyMatch(field -> field.isAnnotationPresent(MapsId.class));
     }
@@ -194,17 +218,9 @@ public abstract sealed class Mapper<D extends Record, E extends Entity> permits 
     protected Constructor<D> getDtoConstructor(Class<D> dtoClass) {
         try {
             return dtoClass.getDeclaredConstructor(mapDtoComponents(dtoClass, RecordComponent::getType).toArray(Class<?>[]::new));
-        } catch (NoSuchMethodException _) {
+        } catch (NoSuchMethodException ignored) {
             return null;
         }
-    }
-
-    /**
-     * @param string String.
-     * @return String con la primera letra mayúscula.
-     */
-    private String capitalize(String string) {
-        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
     }
 
 }

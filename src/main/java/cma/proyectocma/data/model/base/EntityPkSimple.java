@@ -10,12 +10,11 @@ import lombok.Setter;
 /**
  * Superclase de todas las entidades con clave primaria simple.
  */
-
 @Getter
 @Setter
 
 @MappedSuperclass
-public abstract non-sealed class EntityPkSimple extends Entity {
+public abstract non-sealed class EntityPkSimple extends Entity<Integer> {
 
     /**
      * Clave primaria.

@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 public class Tablet extends EntityPkSimple {
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = C.TABLET_PK, nullable = false)
     private Dispositivo dispositivo;
 
